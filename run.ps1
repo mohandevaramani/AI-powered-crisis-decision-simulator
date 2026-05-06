@@ -45,7 +45,7 @@ Write-Host "Starting AI Crisis Decision Simulator" -ForegroundColor Cyan
 Write-Host "==========================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Backend API will start on http://localhost:5000" -ForegroundColor White
-Write-Host "Frontend will start on http://localhost:8080" -ForegroundColor White
+Write-Host "Frontend will be served from the same port" -ForegroundColor White
 Write-Host ""
 
 # Start backend in new window
@@ -60,29 +60,18 @@ $backendJob = Start-Job -ScriptBlock {
 # Wait a moment for backend to initialize
 Start-Sleep -Seconds 3
 
-# Start frontend server in new window
-Write-Host "Starting frontend server..." -ForegroundColor Yellow
-$frontendJob = Start-Job -ScriptBlock {
-    param($root)
-    Set-Location "$root\crisis_simulator\frontend"
-    & "$root\venv\Scripts\python.exe" -m http.server 8080
-} -ArgumentList $root
-
-# Wait for frontend to start
-Start-Sleep -Seconds 2
-
 # Open browser
 Write-Host ""
 Write-Host "Opening application in browser..." -ForegroundColor Yellow
-Start-Process "http://localhost:8080"
+Start-Process "http://localhost:5000"
 
 Write-Host ""
 Write-Host "==========================================" -ForegroundColor Green
 Write-Host "System Running Successfully!" -ForegroundColor Green
 Write-Host "==========================================" -ForegroundColor Green
 Write-Host ""
-Write-Host "Frontend: http://localhost:8080" -ForegroundColor White
-Write-Host "Backend:  http://localhost:5000" -ForegroundColor White
+Write-Host "Application: http://localhost:5000" -ForegroundColor White
+Write-Host "Backend:     http://localhost:5000" -ForegroundColor White
 Write-Host ""
 Write-Host "Close this window and the command windows to stop the application" -ForegroundColor Yellow
 Write-Host ""
@@ -93,8 +82,6 @@ Read-Host "Press Enter to stop the servers and exit"
 # Clean up jobs
 Write-Host "Stopping servers..." -ForegroundColor Yellow
 Stop-Job $backendJob -ErrorAction SilentlyContinue
-Stop-Job $frontendJob -ErrorAction SilentlyContinue
 Remove-Job $backendJob -ErrorAction SilentlyContinue
-Remove-Job $frontendJob -ErrorAction SilentlyContinue
 
 Write-Host "Servers stopped. Goodbye!" -ForegroundColor Green

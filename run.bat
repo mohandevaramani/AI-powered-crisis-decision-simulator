@@ -71,8 +71,8 @@ echo ================================================
 echo System Running
 echo ================================================
 echo.
-echo Frontend:  http://localhost:8080
-echo Backend:   http://localhost:5000
+echo Application: http://localhost:5000
+echo Backend:     http://localhost:5000
 echo.
 echo Press Ctrl+C in the command windows to stop
 echo.
